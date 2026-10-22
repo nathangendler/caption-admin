@@ -21,6 +21,7 @@ const profile = (id: string, is_superadmin = false): Dataset["profiles"][number]
   avatar_url: null,
   created_at: "2026-10-01T00:00:00Z",
   is_superadmin,
+  banned_at: null,
 });
 const moment = (
   id: string,

@@ -13,7 +13,7 @@ export default async function UsersPage() {
     <main className="flex flex-col gap-6">
       <div>
         <h1 className="text-xl font-semibold">Users ({data.profiles.length})</h1>
-        <p className="mt-1 text-[12px] text-subtle">Read only. Superadmin is set in the database.</p>
+        <p className="mt-1 text-[12px] text-subtle">Open a user to ban them or change superadmin access.</p>
       </div>
       <div className="card overflow-x-auto">
         <table className="w-full text-left text-[13px]">
@@ -45,7 +45,9 @@ export default async function UsersPage() {
                   <td className="px-3 py-2 text-right">{a?.likesGiven ?? 0}</td>
                   <td className="px-3 py-2 text-right">{a?.likesReceived ?? 0}</td>
                   <td className="px-3 py-2">
-                    {p.is_superadmin ? (
+                    {p.banned_at ? (
+                      <span className="rounded bg-black px-2 py-0.5 text-xs text-white">banned</span>
+                    ) : p.is_superadmin ? (
                       <span className="rounded border border-black bg-white px-2 py-0.5 text-xs text-black">superadmin</span>
                     ) : (
                       <span className="text-subtle">member</span>

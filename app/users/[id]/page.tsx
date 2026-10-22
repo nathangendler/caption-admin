@@ -5,9 +5,10 @@ import { requireSuperadmin } from "@/lib/auth";
 import { indexBy, loadDataset, profileName } from "@/lib/admin/data";
 import { userActivity } from "@/lib/admin/stats";
 import { Avatar } from "@/components/Avatar";
+import { UserTools } from "@/components/UserTools";
 
 export default async function UserPage({ params }: { params: Promise<{ id: string }> }) {
-  await requireSuperadmin();
+  const admin = await requireSuperadmin();
   const { id } = await params;
   const data = await loadDataset();
   const profile = data.profiles.find((p) => p.id === id);
@@ -31,9 +32,20 @@ export default async function UserPage({ params }: { params: Promise<{ id: strin
             {activity?.posts ?? 0} posts · {activity?.drafts ?? 0} unfinished · {activity?.picks ?? 0} picks ·{" "}
             {activity?.likesGiven ?? 0} likes given · {activity?.likesReceived ?? 0} received
             {profile.is_superadmin && " · superadmin"}
+            {profile.banned_at && ` · banned ${profile.banned_at.slice(0, 10)}`}
           </p>
         </div>
       </div>
+
+      <section className="rounded border border-black p-3">
+        <h2 className="mb-2 font-semibold">Access</h2>
+        <UserTools
+          userId={profile.id}
+          isSuperadmin={profile.is_superadmin}
+          isBanned={profile.banned_at !== null}
+          isSelf={profile.id === admin.id}
+        />
+      </section>
 
       <section>
         <span className="eyebrow">Their moments</span>

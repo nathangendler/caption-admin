@@ -143,3 +143,25 @@ export async function deleteMoment(momentId: string): Promise<ActionResult> {
   revalidatePath("/", "layout");
   return { ok: true };
 }
+
+// Privileged profile changes go through definer functions that re-check the
+// caller in the database and refuse changes to your own account.
+export async function setSuperadmin(userId: string, value: boolean): Promise<ActionResult> {
+  await requireSuperadmin();
+  if (!UUID.test(userId)) return { ok: false, error: "Unknown user." };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("admin_set_superadmin", { target_user: userId, value });
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
+export async function banUser(userId: string): Promise<ActionResult> {
+  await requireSuperadmin();
+  if (!UUID.test(userId)) return { ok: false, error: "Unknown user." };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("admin_ban_user", { target_user: userId });
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/", "layout");
+  return { ok: true };
+}

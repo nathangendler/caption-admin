@@ -219,6 +219,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          banned_at: string | null
           bio: string | null
           created_at: string
           email: string | null
@@ -229,6 +230,7 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          banned_at?: string | null
           bio?: string | null
           created_at?: string
           email?: string | null
@@ -239,6 +241,7 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          banned_at?: string | null
           bio?: string | null
           created_at?: string
           email?: string | null
@@ -287,12 +290,19 @@ export type Database = {
       }
     }
     Functions: {
+      admin_ban_user: { Args: { target_user: string }; Returns: undefined }
+      admin_set_superadmin: {
+        Args: { target_user: string; value: boolean }
+        Returns: undefined
+      }
       caption_in_moment: {
         Args: { target_caption: string; target_generation: string }
         Returns: boolean
       }
+      is_banned: { Args: never; Returns: boolean }
       is_posted: { Args: { target_generation: string }; Returns: boolean }
       is_superadmin: { Args: never; Returns: boolean }
+      is_user_banned: { Args: { target_user: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
