@@ -6,6 +6,15 @@ if (!supabaseUrl) {
 }
 
 const nextConfig: NextConfig = {
+  // Tailwind v4 runs as a Turbopack loader here (no PostCSS config in this project).
+  turbopack: {
+    rules: {
+      "*.css": {
+        loaders: ["@tailwindcss/turbopack"],
+        as: "*.css",
+      },
+    },
+  },
   images: {
     remotePatterns: [
       {
