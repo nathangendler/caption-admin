@@ -295,6 +295,7 @@ export type Database = {
         Args: { target_user: string; value: boolean }
         Returns: undefined
       }
+      admin_unban_user: { Args: { target_user: string }; Returns: undefined }
       caption_in_moment: {
         Args: { target_caption: string; target_generation: string }
         Returns: boolean

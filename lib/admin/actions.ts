@@ -165,3 +165,13 @@ export async function banUser(userId: string): Promise<ActionResult> {
   revalidatePath("/", "layout");
   return { ok: true };
 }
+
+export async function unbanUser(userId: string): Promise<ActionResult> {
+  await requireSuperadmin();
+  if (!UUID.test(userId)) return { ok: false, error: "Unknown user." };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("admin_unban_user", { target_user: userId });
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/", "layout");
+  return { ok: true };
+}

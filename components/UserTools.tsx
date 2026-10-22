@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { banUser, setSuperadmin } from "@/lib/admin/actions";
+import { banUser, setSuperadmin, unbanUser } from "@/lib/admin/actions";
 
 export function UserTools({
   userId,
@@ -29,7 +29,20 @@ export function UserTools({
     return <p className="text-sm text-neutral-600">This is you. You can&apos;t change your own access.</p>;
   }
   if (isBanned) {
-    return <p className="text-sm font-semibold">Banned. Bans are permanent from the dashboard.</p>;
+    return (
+      <div className="flex flex-wrap items-center gap-3">
+        <p className="text-sm font-semibold">Banned.</p>
+        <button
+          type="button"
+          disabled={pending}
+          onClick={() => run(() => unbanUser(userId))}
+          className="rounded border border-black bg-white px-3 py-1.5 text-sm text-black hover:opacity-70 disabled:opacity-50"
+        >
+          Unban user
+        </button>
+        {error && <span className="text-sm font-semibold">{error}</span>}
+      </div>
+    );
   }
 
   return (
@@ -46,7 +59,7 @@ export function UserTools({
         type="button"
         disabled={pending}
         onClick={() => {
-          if (window.confirm("Ban this user? They keep their login but can no longer post, pick, or like, and their moments leave the feed. This cannot be undone from here.")) {
+          if (window.confirm("Ban this user? They keep their login but can no longer post, pick, or like, and their moments leave the feed.")) {
             run(() => banUser(userId));
           }
         }}

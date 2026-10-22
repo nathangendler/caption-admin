@@ -9,8 +9,8 @@ Supabase project, separate Next.js app and Vercel deployment.
   ladder slot tends to win, winning vs losing caption length, emoji share, posts per day,
   most liked moments, most active users, and model usage.
 - **Users:** every profile with activity counts. On a user's page an admin can grant or remove
-  superadmin, or ban them (permanent from the dashboard, like Jukebox). Both go through
-  database functions that re-check the caller and refuse changes to your own account.
+  superadmin, ban them, or lift a ban. All of it goes through database functions that
+  re-check the caller and refuse changes to your own account.
 - **Moments (AI media):** list posted and unfinished moments; open one to edit any caption,
   add a caption, delete a caption, choose the posted winner, edit the user's note, see the
   exact prompt sent to the model, the ladder picks, and who liked it; delete the moment with
