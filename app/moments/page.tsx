@@ -26,18 +26,15 @@ export default async function MomentsPage({
   );
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-5 px-4 py-7 sm:px-8">
+    <main className="flex flex-col gap-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <span className="eyebrow">AI media</span>
-          <h1 className="title mt-1 text-[28px] leading-tight">{moments.length} moments</h1>
-        </div>
+        <h1 className="text-xl font-semibold">Moments ({moments.length})</h1>
         <nav className="flex gap-1">
           {(["all", "posted", "drafts"] as const).map((f) => (
             <Link
               key={f}
               href={f === "all" ? "/moments" : `/moments?show=${f}`}
-              className={`btn btn-sm border border-ink ${filter === f ? "bg-ink text-cream" : "text-ink"}`}
+              className={`rounded px-3 py-1 text-sm ${filter === f ? "bg-black text-white" : "border border-black bg-white text-black hover:opacity-70"}`}
             >
               {f[0].toUpperCase() + f.slice(1)}
             </Link>
@@ -46,18 +43,18 @@ export default async function MomentsPage({
       </div>
       <div className="card overflow-x-auto">
         <table className="w-full text-left text-[13px]">
-          <thead className="text-[11px] uppercase tracking-[0.1em] text-muted">
-            <tr className="border-b border-hairline">
-              <th className="px-3 py-2">Photo</th>
-              <th className="px-3 py-2">Caption</th>
-              <th className="px-3 py-2">By</th>
-              <th className="px-3 py-2">Status</th>
-              <th className="px-3 py-2 text-right">Picks</th>
-              <th className="px-3 py-2 text-right">Likes</th>
-              <th className="px-3 py-2">Created</th>
+          <thead>
+            <tr className="border-b border-black">
+              <th className="th">Photo</th>
+              <th className="th">Caption</th>
+              <th className="th">By</th>
+              <th className="th">Status</th>
+              <th className="th text-right">Picks</th>
+              <th className="th text-right">Likes</th>
+              <th className="th">Created</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-hairline">
+          <tbody className="divide-y divide-black">
             {moments.map((g) => (
               <tr key={g.id}>
                 <td className="px-3 py-2">
@@ -66,12 +63,12 @@ export default async function MomentsPage({
                   </Link>
                 </td>
                 <td className="max-w-xs px-3 py-2">
-                  <Link href={`/moments/${g.id}`} className="line-clamp-2 font-bold text-ink hover:underline">
+                  <Link href={`/moments/${g.id}`} className="line-clamp-2 font-semibold hover:underline">
                     {g.winner_caption_id ? captions.get(g.winner_caption_id)?.text : <span className="font-normal text-subtle">No winner yet</span>}
                   </Link>
                 </td>
                 <td className="px-3 py-2">
-                  <Link href={`/users/${g.user_id}`} className="hover:underline">{profileName(profiles.get(g.user_id))}</Link>
+                  <Link href={`/users/${g.user_id}`} className="underline">{profileName(profiles.get(g.user_id))}</Link>
                 </td>
                 <td className="px-3 py-2">
                   {g.posted_at ? <span className="font-bold text-ink">Posted</span> : <span className="text-accent-strong">Draft</span>}

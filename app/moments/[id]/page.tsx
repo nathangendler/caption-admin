@@ -21,8 +21,8 @@ export default async function MomentPage({ params }: { params: Promise<{ id: str
   for (const pick of picks) wins.set(pick.winner_caption_id, (wins.get(pick.winner_caption_id) ?? 0) + 1);
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-7 sm:px-8">
-      <Link href="/moments" className="text-[12px] font-bold text-subtle hover:text-ink">← Moments</Link>
+    <main className="flex flex-col gap-6">
+      <Link href="/moments" className="text-sm underline">← Moments</Link>
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
         <div className="flex flex-col gap-3">
@@ -32,7 +32,7 @@ export default async function MomentPage({ params }: { params: Promise<{ id: str
           <div className="card flex flex-col gap-1 p-3 text-[12px] text-subtle">
             <p>
               By{" "}
-              <Link href={`/users/${moment.user_id}`} className="font-bold text-ink hover:underline">
+              <Link href={`/users/${moment.user_id}`} className="font-semibold hover:underline">
                 {profileName(profiles.get(moment.user_id))}
               </Link>
             </p>
@@ -52,7 +52,7 @@ export default async function MomentPage({ params }: { params: Promise<{ id: str
         <div className="flex flex-col gap-4">
           <div>
             <span className="eyebrow">Captions</span>
-            <ul className="card mt-2 divide-y divide-hairline">
+            <ul className="card mt-2 divide-y divide-black">
               {captions.map((c) => (
                 <CaptionRow
                   key={c.id}
@@ -75,7 +75,7 @@ export default async function MomentPage({ params }: { params: Promise<{ id: str
             {picks.length === 0 ? (
               <p className="mt-2 text-[13px] text-subtle">No picks yet.</p>
             ) : (
-              <ol className="card mt-2 divide-y divide-hairline text-[12px]">
+              <ol className="card mt-2 divide-y divide-black text-[12px]">
                 {picks.map((p) => (
                   <li key={p.id} className="flex items-start gap-3 px-3 py-2">
                     <span className="w-4 font-bold text-muted">{p.pick_index + 1}</span>

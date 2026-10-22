@@ -22,11 +22,11 @@ export function GoogleSignInButton() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-3">
-      <button type="button" onClick={signIn} disabled={pending} className="btn-primary">
+    <div className="flex flex-col items-start gap-3">
+      <button type="button" onClick={signIn} disabled={pending} className="mt-2 rounded bg-black px-3 py-1.5 text-white disabled:opacity-50">
         {pending ? "Redirecting to Google…" : "Continue with Google"}
       </button>
-      {error && <p className="text-[13px] text-danger">{error}</p>}
+      {error && <p className="text-sm font-semibold">{error}</p>}
     </div>
   );
 }

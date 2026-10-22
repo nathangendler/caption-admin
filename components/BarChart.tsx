@@ -29,7 +29,7 @@ export function BarChart({
               width={barWidth}
               height={h}
               rx={3}
-              fill={bar.value === max ? "var(--accent-strong)" : "var(--accent)"}
+              fill={bar.value === max ? "#000000" : "#737373"}
             />
             {bar.value > 0 && (
               <text
@@ -38,7 +38,7 @@ export function BarChart({
                 textAnchor="middle"
                 fontSize="11"
                 fontWeight="700"
-                fill="var(--foreground)"
+                fill="#000000"
               >
                 {bar.value}
               </text>
@@ -49,7 +49,7 @@ export function BarChart({
                 y={height + 16}
                 textAnchor="middle"
                 fontSize="10"
-                fill="var(--subtle)"
+                fill="#525252"
               >
                 {bar.label}
               </text>

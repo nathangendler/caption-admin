@@ -34,11 +34,8 @@ export default async function OverviewPage() {
     .slice(0, 5);
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-7 sm:px-8">
-      <div>
-        <span className="eyebrow">Overview</span>
-        <h1 className="title mt-1 text-[28px] leading-tight">What people are doing</h1>
-      </div>
+    <main className="flex flex-col gap-6">
+      <h1 className="text-xl font-semibold">Overview</h1>
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatCard label="Users" value={String(t.users)} hint={`${t.superadmins} superadmin`} />
@@ -95,7 +92,7 @@ export default async function OverviewPage() {
           hint={`Losing captions average ${chars(lengths.others)}`}
         />
         <div className="card p-4">
-          <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted">Models used</p>
+          <p className="text-sm">Models used</p>
           <ul className="mt-2 flex flex-col gap-1 text-[13px]">
             {modelUsage(data).map((m) => (
               <li key={m.day} className="flex justify-between">
@@ -111,7 +108,7 @@ export default async function OverviewPage() {
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="card p-4">
           <span className="eyebrow">Most liked</span>
-          <ol className="mt-3 flex flex-col divide-y divide-hairline">
+          <ol className="mt-3 flex flex-col divide-y divide-black">
             {topPosts(data, 5).map((post, index) => (
               <li key={post.id} className="flex items-start gap-3 py-2 text-[13px]">
                 <span className="w-5 font-bold text-muted">{index + 1}</span>
@@ -129,7 +126,7 @@ export default async function OverviewPage() {
         </div>
         <div className="card p-4">
           <span className="eyebrow">Most active</span>
-          <ol className="mt-3 flex flex-col divide-y divide-hairline">
+          <ol className="mt-3 flex flex-col divide-y divide-black">
             {leaders.map((u, index) => (
               <li key={u.userId} className="flex items-center gap-3 py-2 text-[13px]">
                 <span className="w-5 font-bold text-muted">{index + 1}</span>

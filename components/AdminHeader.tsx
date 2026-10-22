@@ -1,46 +1,49 @@
-import Link from "next/link";
-import { getCurrentUser } from "@/lib/auth";
-import { Avatar } from "@/components/Avatar";
+"use client";
 
-const NAV = [
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const TABS = [
   { href: "/", label: "Overview" },
   { href: "/users", label: "Users" },
   { href: "/moments", label: "Moments" },
   { href: "/votes", label: "Votes" },
 ];
 
-export async function AdminHeader() {
-  const user = await getCurrentUser();
+export function AdminNav({ email, isSuperadmin }: { email: string | null; isSuperadmin: boolean }) {
+  const pathname = usePathname();
+  const active = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+
   return (
-    <header className="border-b border-hairline bg-cream">
-      <nav className="mx-auto flex max-w-5xl items-center gap-5 px-4 py-3 text-[13px] sm:px-8">
-        <span className="eyebrow">Caption admin</span>
-        {user?.isSuperadmin &&
-          NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="font-semibold text-subtle hover:text-ink">
-              {item.label}
+    <header className="flex flex-wrap items-center gap-4 border-b border-black px-6 py-3">
+      <h1 className="font-semibold">Caption Admin</h1>
+      {isSuperadmin && (
+        <nav className="flex gap-2">
+          {TABS.map((tab) => (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className={`rounded px-3 py-1 text-sm ${
+                active(tab.href)
+                  ? "bg-black text-white"
+                  : "border border-black bg-white text-black hover:opacity-70"
+              }`}
+            >
+              {tab.label}
             </Link>
           ))}
-        <div className="ml-auto flex items-center gap-3">
-          {user ? (
-            <>
-              <span className="flex items-center gap-2 font-semibold text-ink">
-                <Avatar url={user.avatarUrl} name={user.firstName ?? user.email ?? "?"} size={24} />
-                <span className="hidden sm:inline">{user.email}</span>
-              </span>
-              <form action="/auth/signout" method="post">
-                <button type="submit" className="text-subtle hover:text-ink">
-                  Sign out
-                </button>
-              </form>
-            </>
-          ) : (
-            <Link href="/login" className="btn-outline btn-sm">
-              Sign in
-            </Link>
-          )}
+        </nav>
+      )}
+      {email && (
+        <div className="ml-auto flex items-center gap-3 text-sm">
+          <span>{email}</span>
+          <form action="/auth/signout" method="post">
+            <button type="submit" className="rounded bg-black px-2 py-1 text-white hover:opacity-70">
+              Log out
+            </button>
+          </form>
         </div>
-      </nav>
+      )}
     </header>
   );
 }

@@ -1,20 +1,19 @@
 @import "tailwindcss";
 
-/* Jukebox palette: editorial cream page, ink text, orange accents. */
+/* Jukebox admin look: plain white, black text, black hairlines, 4px corners. */
 :root {
-  --background: #faf3eb; /* cream */
-  --foreground: #121212; /* ink */
-  --accent: #ffa757;
-  --accent-strong: #ff6e00;
-  --accent-soft: #ffd6af;
-  --muted: #999999;
-  --subtle: #666666;
-  --hairline: #efe8dc;
-  --card-border: #e5ded2;
-  --dot-idle: #d9d0c3;
-  --liked: #e5484d;
-  --gray: #ebebeb;
-  --danger: #dc2626;
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #000000;
+  --accent: #000000;
+  --accent-strong: #000000;
+  --subtle: #525252;
+  --muted: #737373;
+  --hairline: #000000;
+  --card-border: #000000;
+  --dot-idle: #e5e5e5;
+  --gray: #f5f5f5;
+  --danger: #000000;
 }
 
 @theme inline {
@@ -24,51 +23,49 @@
   --color-cream: var(--background);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
-  --color-accent-soft: var(--accent-soft);
-  --color-muted: var(--muted);
   --color-subtle: var(--subtle);
+  --color-muted: var(--muted);
   --color-hairline: var(--hairline);
   --color-card-border: var(--card-border);
   --color-dot-idle: var(--dot-idle);
-  --color-liked: var(--liked);
   --color-gray-soft: var(--gray);
   --color-danger: var(--danger);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Shared pieces, declared as utilities so Tailwind can @apply and variant them. */
 @utility eyebrow {
-  /* Small tracked caps in accent orange, the section marker used across Jukebox. */
-  @apply text-[11px] font-extrabold uppercase tracking-[0.12em] text-accent;
+  @apply text-lg font-semibold text-black;
 }
 @utility title {
-  @apply font-extrabold tracking-[-0.02em] text-ink;
+  @apply font-semibold text-black;
 }
 @utility card {
-  @apply rounded-lg border border-card-border bg-cream;
+  @apply rounded border border-black bg-white;
 }
 @utility btn {
-  @apply inline-flex h-10 items-center justify-center rounded-md px-4 text-[13px] font-bold transition disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded px-3 py-1.5 text-sm disabled:opacity-50;
 }
 @utility btn-primary {
-  @apply inline-flex h-10 items-center justify-center rounded-md bg-ink px-4 text-[13px] font-bold text-cream transition hover:opacity-90 disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded bg-black px-3 py-1.5 text-sm text-white hover:opacity-70 disabled:opacity-50;
 }
 @utility btn-outline {
-  @apply inline-flex h-10 items-center justify-center rounded-md border border-ink bg-transparent px-4 text-[13px] font-bold text-ink transition hover:bg-ink/5 disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded border border-black bg-white px-3 py-1.5 text-sm text-black hover:opacity-70 disabled:opacity-50;
 }
 @utility btn-sm {
-  @apply h-8 px-3 text-[12px];
+  @apply px-2 py-1 text-xs;
 }
 @utility input {
-  @apply w-full rounded-md border border-card-border bg-white px-3 py-2 text-ink placeholder:text-muted focus:border-ink focus:outline-none;
+  @apply w-full rounded border border-black bg-white px-2 py-1 text-sm text-black focus:outline-none;
 }
 @utility label {
-  @apply text-[13px] font-bold text-ink;
+  @apply text-sm text-black;
+}
+@utility th {
+  @apply py-2 pr-4 text-sm font-semibold text-black;
 }

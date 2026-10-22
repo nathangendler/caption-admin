@@ -19,12 +19,12 @@ export default async function UserPage({ params }: { params: Promise<{ id: strin
   const liked = data.generations.filter((g) => likedIds.has(g.id));
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-7 sm:px-8">
-      <Link href="/users" className="text-[12px] font-bold text-subtle hover:text-ink">← Users</Link>
+    <main className="flex flex-col gap-6">
+      <Link href="/users" className="text-sm underline">← Users</Link>
       <div className="card flex items-center gap-4 p-4">
         <Avatar url={profile.avatar_url} name={profileName(profile)} size={56} />
         <div>
-          <h1 className="title text-[22px]">{profileName(profile)}</h1>
+          <h1 className="text-lg font-semibold">{profileName(profile)}</h1>
           <p className="text-[12px] text-subtle">{profile.email} · joined {profile.created_at.slice(0, 10)}</p>
           {profile.bio && <p className="mt-1 text-[13px]">{profile.bio}</p>}
           <p className="mt-1 text-[12px] text-subtle">
@@ -60,10 +60,10 @@ export default async function UserPage({ params }: { params: Promise<{ id: strin
         {liked.length === 0 ? (
           <p className="mt-2 text-[13px] text-subtle">None yet.</p>
         ) : (
-          <ul className="mt-3 flex flex-col divide-y divide-hairline card">
+          <ul className="mt-3 flex flex-col divide-y divide-black card">
             {liked.map((g) => (
               <li key={g.id} className="px-3 py-2 text-[13px]">
-                <Link href={`/moments/${g.id}`} className="hover:underline">
+                <Link href={`/moments/${g.id}`} className="underline">
                   {g.winner_caption_id ? captions.get(g.winner_caption_id)?.text : g.id}
                 </Link>
               </li>
