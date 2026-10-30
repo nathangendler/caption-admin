@@ -33,7 +33,8 @@ export async function upsertRow<T extends EditableTable>(
   // Per-table row types don't narrow through a generic key, so the write goes through an
   // untyped client; the allowlist above and the typed `row` parameter are the guards.
   const db: SupabaseClient = (await createClient()) as unknown as SupabaseClient;
-  const { error } = await db.from(table).upsert(row, { onConflict: EDITABLE[table] });
+  const keyColumn: string = EDITABLE[table];
+  const { error } = await db.from(table).upsert(row, { onConflict: keyColumn });
   if (error) return { ok: false, error: error.message };
   revalidatePath("/", "layout");
   return { ok: true };
@@ -46,7 +47,8 @@ export async function deleteRow<T extends EditableTable>(
   await requireSuperadmin();
   if (!(table in EDITABLE)) return { ok: false, error: "Unknown table." };
   const db: SupabaseClient = (await createClient()) as unknown as SupabaseClient;
-  const { error } = await db.from(table).delete().eq(EDITABLE[table], key);
+  const keyColumn: string = EDITABLE[table];
+  const { error } = await db.from(table).delete().eq(keyColumn, key);
   if (error) return { ok: false, error: error.message };
   revalidatePath("/", "layout");
   return { ok: true };
