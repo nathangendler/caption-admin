@@ -7,7 +7,16 @@ const TABS = [
   { href: "/", label: "Overview" },
   { href: "/users", label: "Users" },
   { href: "/moments", label: "Moments" },
+  { href: "/requests", label: "Requests" },
+  { href: "/images", label: "Images" },
   { href: "/votes", label: "Votes" },
+  { href: "/chains", label: "Prompt chains" },
+  { href: "/examples", label: "Examples" },
+  { href: "/models", label: "Models" },
+  { href: "/providers", label: "Providers" },
+  { href: "/responses", label: "LLM responses" },
+  { href: "/terms", label: "Terms" },
+  { href: "/signup", label: "Sign-up rules" },
 ];
 
 export function AdminNav({ email, isSuperadmin }: { email: string | null; isSuperadmin: boolean }) {
@@ -18,7 +27,7 @@ export function AdminNav({ email, isSuperadmin }: { email: string | null; isSupe
     <header className="flex flex-wrap items-center gap-4 border-b border-black px-6 py-3">
       <h1 className="font-semibold">Caption Admin</h1>
       {isSuperadmin && (
-        <nav className="flex gap-2">
+        <nav className="flex flex-wrap gap-2">
           {TABS.map((tab) => (
             <Link
               key={tab.href}

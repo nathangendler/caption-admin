@@ -38,6 +38,7 @@ const moment = (
   created_at: posted_at ?? "2026-10-20T00:00:00Z",
   posted_at,
   winner_caption_id,
+  prompt_chain_id: null,
 });
 const caption = (id: string, generation_id: string, position: number, text: string) => ({
   id,

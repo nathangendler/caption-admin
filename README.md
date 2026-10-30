@@ -16,6 +16,17 @@ Supabase project, separate Next.js app and Vercel deployment.
   exact prompt sent to the model, the ladder picks, and who liked it; delete the moment with
   its photo.
 - **Votes:** read the latest ladder picks and likes.
+- **Requests:** every generation request with the chain and model that handled it.
+- **Images:** every photo in the moments bucket; upload, replace, or delete one, and run
+  the pipeline on an uploaded photo from the main app.
+- **Prompt chains:** read chains and their steps, edit them, and set the mix (the weight that
+  decides which chain a new moment uses).
+- **Examples, models, providers:** full create, read, update, delete. Keys stay in env vars;
+  a provider only names the variable.
+- **LLM responses:** every step's prompt, response, latency, and error.
+- **Terms:** create, edit, publish, and delete the legal documents the main app serves.
+- **Sign-up rules:** allowed e-mail domains and whitelisted addresses. With none set,
+  anyone can sign in.
 
 ## Access control
 

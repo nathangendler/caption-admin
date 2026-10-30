@@ -41,6 +41,21 @@ export type Database = {
         }
         Relationships: []
       }
+      allowed_signup_domains: {
+        Row: {
+          created_at: string
+          domain: string
+        }
+        Insert: {
+          created_at?: string
+          domain: string
+        }
+        Update: {
+          created_at?: string
+          domain?: string
+        }
+        Relationships: []
+      }
       captions: {
         Row: {
           created_at: string
@@ -80,6 +95,30 @@ export type Database = {
           },
         ]
       }
+      generation_examples: {
+        Row: {
+          caption: string
+          created_at: string
+          id: string
+          is_active: boolean
+          note: string | null
+        }
+        Insert: {
+          caption: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          note?: string | null
+        }
+        Update: {
+          caption?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          note?: string | null
+        }
+        Relationships: []
+      }
       generations: {
         Row: {
           created_at: string
@@ -88,6 +127,7 @@ export type Database = {
           model: string
           posted_at: string | null
           prompt: string
+          prompt_chain_id: string | null
           user_id: string
           user_note: string | null
           winner_caption_id: string | null
@@ -99,6 +139,7 @@ export type Database = {
           model: string
           posted_at?: string | null
           prompt: string
+          prompt_chain_id?: string | null
           user_id: string
           user_note?: string | null
           winner_caption_id?: string | null
@@ -110,11 +151,19 @@ export type Database = {
           model?: string
           posted_at?: string | null
           prompt?: string
+          prompt_chain_id?: string | null
           user_id?: string
           user_note?: string | null
           winner_caption_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "generations_prompt_chain_id_fkey"
+            columns: ["prompt_chain_id"]
+            isOneToOne: false
+            referencedRelation: "prompt_chains"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "generations_winner_caption_id_fkey"
             columns: ["winner_caption_id"]
@@ -153,6 +202,139 @@ export type Database = {
             columns: ["generation_id"]
             isOneToOne: false
             referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      llm_models: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          model_id: string
+          name: string
+          provider_id: string
+          supports_images: boolean
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          model_id: string
+          name: string
+          provider_id: string
+          supports_images?: boolean
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          model_id?: string
+          name?: string
+          provider_id?: string
+          supports_images?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "llm_models_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "llm_providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      llm_providers: {
+        Row: {
+          api_key_env: string
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          slug: string
+        }
+        Insert: {
+          api_key_env: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          slug: string
+        }
+        Update: {
+          api_key_env?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      llm_responses: {
+        Row: {
+          created_at: string
+          error: string | null
+          generation_id: string | null
+          id: string
+          latency_ms: number | null
+          llm_model_id: string | null
+          prompt: string
+          response: string | null
+          step_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          generation_id?: string | null
+          id?: string
+          latency_ms?: number | null
+          llm_model_id?: string | null
+          prompt: string
+          response?: string | null
+          step_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          generation_id?: string | null
+          id?: string
+          latency_ms?: number | null
+          llm_model_id?: string | null
+          prompt?: string
+          response?: string | null
+          step_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "llm_responses_generation_id_fkey"
+            columns: ["generation_id"]
+            isOneToOne: false
+            referencedRelation: "generations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "llm_responses_generation_id_fkey"
+            columns: ["generation_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "llm_responses_llm_model_id_fkey"
+            columns: ["llm_model_id"]
+            isOneToOne: false
+            referencedRelation: "llm_models"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "llm_responses_step_id_fkey"
+            columns: ["step_id"]
+            isOneToOne: false
+            referencedRelation: "prompt_chain_steps"
             referencedColumns: ["id"]
           },
         ]
@@ -252,6 +434,150 @@ export type Database = {
         }
         Relationships: []
       }
+      prompt_chain_steps: {
+        Row: {
+          chain_id: string
+          created_at: string
+          id: string
+          llm_model_id: string
+          name: string
+          position: number
+          system_prompt: string
+          temperature: number
+          user_prompt: string
+          uses_image: boolean
+        }
+        Insert: {
+          chain_id: string
+          created_at?: string
+          id?: string
+          llm_model_id: string
+          name: string
+          position: number
+          system_prompt?: string
+          temperature?: number
+          user_prompt: string
+          uses_image?: boolean
+        }
+        Update: {
+          chain_id?: string
+          created_at?: string
+          id?: string
+          llm_model_id?: string
+          name?: string
+          position?: number
+          system_prompt?: string
+          temperature?: number
+          user_prompt?: string
+          uses_image?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prompt_chain_steps_chain_id_fkey"
+            columns: ["chain_id"]
+            isOneToOne: false
+            referencedRelation: "prompt_chains"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prompt_chain_steps_llm_model_id_fkey"
+            columns: ["llm_model_id"]
+            isOneToOne: false
+            referencedRelation: "llm_models"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prompt_chains: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          mix_weight: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          mix_weight?: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          mix_weight?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      superadmin_invites: {
+        Row: {
+          created_at: string
+          email: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+        }
+        Relationships: []
+      }
+      terms: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          published_at: string | null
+          slug: string
+          title: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          published_at?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          published_at?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      whitelisted_emails: {
+        Row: {
+          created_at: string
+          email: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       like_counts: {
@@ -302,6 +628,7 @@ export type Database = {
       }
       is_banned: { Args: never; Returns: boolean }
       is_posted: { Args: { target_generation: string }; Returns: boolean }
+      is_signup_allowed: { Args: { target_email: string }; Returns: boolean }
       is_superadmin: { Args: never; Returns: boolean }
       is_user_banned: { Args: { target_user: string }; Returns: boolean }
     }
